@@ -1,73 +1,284 @@
-## Homework 1. ToDo List Application
-
-#Define Task Class:
-#Create a Task class with attributes such as task title, description, due date, and status.
-#Define ToDoList Class:
-#Create a ToDoList class that manages a list of tasks.
-#Include methods to add a task, mark a task as complete, list all tasks, and display incomplete tasks.
-#Create Main Program:
-#Develop a simple CLI to interact with the ToDoList.
-#Include options to add tasks, mark tasks as complete, list all tasks, and display only incomplete tasks.
-#Test the Application:
-#Create instances of tasks and test the functionality of your ToDoList
-class Task:
-    def __init__(self,title,description,due_date,status):
-        self.title=title
-        self.descriptiion=description
-        self.due_date=due_date
-        self.status=status
-class ToDoList():
-    def add_task():       
-        task.title=input("Vazifa nomini kiriting: ")
-        task.description=input("Vazifa izohi: ")
-        task.due_date=input("Vazifa qachon bajariladi: ")
-        task.status='Bajarilmagan'
-        lst_task[task.title]=[task.description,task.due_date,task.status]
-        print(task.description,"Vazifa qo`shildi!\n")
-        main()
-    def mark_task(ish):
-        task_status=input("Bajarilgan bo`lsa '1', bajarilmagan bo`lsa '0' yozing: \n")
-        if task_status=='0':
-            lst_task[ish][2]='Bajarilmagan'
-        else:
-            lst_task[ish][2]='Bajarilgan'
-        print("Vazifa holati belgilandi!\n")
-        main()
-    def list_all_task():
-        for v in lst_task:
-            print(f'Nomi-{v}\nIzoh-{lst_task[v][0]}\nBajarish vaqti-{lst_task[v][1]}\nHolati-{lst_task[v][2]}\n')
-        main()
-    def incomp_tasks():
-        dic_madi=dict(filter(lambda item: 'Bajarilmagan' in item[1], lst_task.items()))
-        for m in dic_madi.items():
-            print(
-                f'Ish nomi: {m[0]}\n'
-                f'Izohi: {m[1][0]}\n'
-                f'Bajarish vaqti: {m[1][1]}\n'
-            )
-        main()
-def main():
-    mainprog=input(
-        " Vazifa qo`shish uchun - add\n"
-        " Bajarilgan qilib belgilash uchun -mark\n"
-        " Barcha vazifalarni chiqarish uchun - list\n"
-        " Bajarilmagan vazifalarni chiqarish uchun - incomp yozing\n"
-        )
-    if mainprog=='add':
-        todo.add_task()
-    if mainprog=='mark':
-        for i in lst_task:
-            print(i)
-        ish=input('Qaysi isni tanlamoqchisiz? ')
-        todo.mark_task(ish)
-    if mainprog=='list':
-        todo.list_all_task()
-    if mainprog=='incomp':
-        todo.incomp_tasks()
-    else:
-        print('Notog`ri buyruq kiritdingiz! Qaytqdqn kiriting')
-        main()
-lst_task={}
-task = Task('','','','')
-todo=ToDoList
-main()
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "60ae232b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# todo_app.py\n",
+    "\n",
+    "class Task:\n",
+    "    def __init__(self, title, description, due_date):\n",
+    "        self.title = title\n",
+    "        self.description = description\n",
+    "        self.due_date = due_date\n",
+    "        self.completed = False\n",
+    "\n",
+    "    def mark_complete(self):\n",
+    "        self.completed = True\n",
+    "\n",
+    "    def __str__(self):\n",
+    "        status = \"✔ Completed\" if self.completed else \"❌ Incomplete\"\n",
+    "        return f\"{self.title} - {self.description} (Due: {self.due_date}) [{status}]\"\n",
+    "\n",
+    "\n",
+    "class ToDoList:\n",
+    "    def __init__(self):\n",
+    "        self.tasks = []\n",
+    "\n",
+    "    def add_task(self, task):\n",
+    "        self.tasks.append(task)\n",
+    "\n",
+    "    def list_tasks(self):\n",
+    "        for task in self.tasks:\n",
+    "            print(task)\n",
+    "\n",
+    "    def list_incomplete_tasks(self):\n",
+    "        for task in self.tasks:\n",
+    "            if not task.completed:\n",
+    "                print(task)\n",
+    "\n",
+    "\n",
+    "def main():\n",
+    "    todo = ToDoList()\n",
+    "    while True:\n",
+    "        print(\"\\nToDo List Menu:\")\n",
+    "        print(\"1. Add Task\")\n",
+    "        print(\"2. Mark Task as Complete\")\n",
+    "        print(\"3. List All Tasks\")\n",
+    "        print(\"4. List Incomplete Tasks\")\n",
+    "        print(\"5. Exit\")\n",
+    "        choice = input(\"Choose an option: \")\n",
+    "\n",
+    "        if choice == \"1\":\n",
+    "            title = input(\"Task title: \")\n",
+    "            desc = input(\"Task description: \")\n",
+    "            due = input(\"Due date: \")\n",
+    "            todo.add_task(Task(title, desc, due))\n",
+    "        elif choice == \"2\":\n",
+    "            todo.list_tasks()\n",
+    "            idx = int(input(\"Enter task number to mark complete: \"))\n",
+    "            if 0 <= idx-1 < len(todo.tasks):\n",
+    "                todo.tasks[idx-1].mark_complete()\n",
+    "        elif choice == \"3\":\n",
+    "            todo.list_tasks()\n",
+    "        elif choice == \"4\":\n",
+    "            todo.list_incomplete_tasks()\n",
+    "        elif choice == \"5\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Invalid option!\")\n",
+    "\n",
+    "\n",
+    "if __name__ == \"__main__\":\n",
+    "    main()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1ade25df",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# blog_app.py\n",
+    "\n",
+    "class Post:\n",
+    "    def __init__(self, title, content, author):\n",
+    "        self.title = title\n",
+    "        self.content = content\n",
+    "        self.author = author\n",
+    "\n",
+    "    def __str__(self):\n",
+    "        return f\"Title: {self.title}\\nBy: {self.author}\\n{self.content}\\n\"\n",
+    "\n",
+    "\n",
+    "class Blog:\n",
+    "    def __init__(self):\n",
+    "        self.posts = []\n",
+    "\n",
+    "    def add_post(self, post):\n",
+    "        self.posts.append(post)\n",
+    "\n",
+    "    def list_posts(self):\n",
+    "        for post in self.posts:\n",
+    "            print(post)\n",
+    "\n",
+    "    def posts_by_author(self, author):\n",
+    "        for post in self.posts:\n",
+    "            if post.author == author:\n",
+    "                print(post)\n",
+    "\n",
+    "    def delete_post(self, title):\n",
+    "        self.posts = [post for post in self.posts if post.title != title]\n",
+    "\n",
+    "    def edit_post(self, old_title, new_title, new_content):\n",
+    "        for post in self.posts:\n",
+    "            if post.title == old_title:\n",
+    "                post.title = new_title\n",
+    "                post.content = new_content\n",
+    "\n",
+    "    def latest_posts(self, count=3):\n",
+    "        for post in self.posts[-count:]:\n",
+    "            print(post)\n",
+    "\n",
+    "\n",
+    "def main():\n",
+    "    blog = Blog()\n",
+    "    while True:\n",
+    "        print(\"\\nBlog Menu:\")\n",
+    "        print(\"1. Add Post\")\n",
+    "        print(\"2. List All Posts\")\n",
+    "        print(\"3. Display Posts by Author\")\n",
+    "        print(\"4. Delete Post\")\n",
+    "        print(\"5. Edit Post\")\n",
+    "        print(\"6. Show Latest Posts\")\n",
+    "        print(\"7. Exit\")\n",
+    "        choice = input(\"Choose an option: \")\n",
+    "\n",
+    "        if choice == \"1\":\n",
+    "            title = input(\"Title: \")\n",
+    "            content = input(\"Content: \")\n",
+    "            author = input(\"Author: \")\n",
+    "            blog.add_post(Post(title, content, author))\n",
+    "        elif choice == \"2\":\n",
+    "            blog.list_posts()\n",
+    "        elif choice == \"3\":\n",
+    "            author = input(\"Author name: \")\n",
+    "            blog.posts_by_author(author)\n",
+    "        elif choice == \"4\":\n",
+    "            title = input(\"Post title to delete: \")\n",
+    "            blog.delete_post(title)\n",
+    "        elif choice == \"5\":\n",
+    "            old_title = input(\"Title of post to edit: \")\n",
+    "            new_title = input(\"New title: \")\n",
+    "            new_content = input(\"New content: \")\n",
+    "            blog.edit_post(old_title, new_title, new_content)\n",
+    "        elif choice == \"6\":\n",
+    "            blog.latest_posts()\n",
+    "        elif choice == \"7\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Invalid option!\")\n",
+    "\n",
+    "\n",
+    "if __name__ == \"__main__\":\n",
+    "    main()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cae22c7f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# bank_app.py\n",
+    "\n",
+    "class Account:\n",
+    "    def __init__(self, acc_num, holder, balance=0):\n",
+    "        self.acc_num = acc_num\n",
+    "        self.holder = holder\n",
+    "        self.balance = balance\n",
+    "\n",
+    "    def deposit(self, amount):\n",
+    "        self.balance += amount\n",
+    "\n",
+    "    def withdraw(self, amount):\n",
+    "        if self.balance >= amount:\n",
+    "            self.balance -= amount\n",
+    "            return True\n",
+    "        else:\n",
+    "            print(\"❌ Insufficient funds!\")\n",
+    "            return False\n",
+    "\n",
+    "    def __str__(self):\n",
+    "        return f\"Account {self.acc_num} | Holder: {self.holder} | Balance: {self.balance}\"\n",
+    "\n",
+    "\n",
+    "class Bank:\n",
+    "    def __init__(self):\n",
+    "        self.accounts = {}\n",
+    "\n",
+    "    def add_account(self, acc):\n",
+    "        self.accounts[acc.acc_num] = acc\n",
+    "\n",
+    "    def get_account(self, acc_num):\n",
+    "        return self.accounts.get(acc_num)\n",
+    "\n",
+    "    def transfer(self, from_acc, to_acc, amount):\n",
+    "        sender = self.get_account(from_acc)\n",
+    "        receiver = self.get_account(to_acc)\n",
+    "        if sender and receiver:\n",
+    "            if sender.withdraw(amount):\n",
+    "                receiver.deposit(amount)\n",
+    "\n",
+    "\n",
+    "def main():\n",
+    "    bank = Bank()\n",
+    "    while True:\n",
+    "        print(\"\\nBank Menu:\")\n",
+    "        print(\"1. Add Account\")\n",
+    "        print(\"2. Check Balance\")\n",
+    "        print(\"3. Deposit Money\")\n",
+    "        print(\"4. Withdraw Money\")\n",
+    "        print(\"5. Transfer Money\")\n",
+    "        print(\"6. Show Account Details\")\n",
+    "        print(\"7. Exit\")\n",
+    "        choice = input(\"Choose an option: \")\n",
+    "\n",
+    "        if choice == \"1\":\n",
+    "            num = input(\"Account number: \")\n",
+    "            name = input(\"Account holder name: \")\n",
+    "            bank.add_account(Account(num, name))\n",
+    "        elif choice == \"2\":\n",
+    "            num = input(\"Enter account number: \")\n",
+    "            acc = bank.get_account(num)\n",
+    "            print(acc.balance if acc else \"Account not found\")\n",
+    "        elif choice == \"3\":\n",
+    "            num = input(\"Account number: \")\n",
+    "            amt = float(input(\"Amount: \"))\n",
+    "            acc = bank.get_account(num)\n",
+    "            if acc:\n",
+    "                acc.deposit(amt)\n",
+    "        elif choice == \"4\":\n",
+    "            num = input(\"Account number: \")\n",
+    "            amt = float(input(\"Amount: \"))\n",
+    "            acc = bank.get_account(num)\n",
+    "            if acc:\n",
+    "                acc.withdraw(amt)\n",
+    "        elif choice == \"5\":\n",
+    "            from_acc = input(\"From account: \")\n",
+    "            to_acc = input(\"To account: \")\n",
+    "            amt = float(input(\"Amount: \"))\n",
+    "            bank.transfer(from_acc, to_acc, amt)\n",
+    "        elif choice == \"6\":\n",
+    "            for acc in bank.accounts.values():\n",
+    "                print(acc)\n",
+    "        elif choice == \"7\":\n",
+    "            break\n",
+    "        else:\n",
+    "            print(\"Invalid option!\")\n",
+    "\n",
+    "\n",
+    "if __name__ == \"__main__\":\n",
+    "    main()\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
