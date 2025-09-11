@@ -1,16 +1,127 @@
-import requests
-url = "https://api.siat.stat.uz/media/uploads/sdmx/sdmx_data_225.json"
-respond = requests.get(url)
-data = respond.json()
-for i in data[0]["metadata"]:
-    print(i["name_uz"])
-
-import os
-asosiy_papka = "Aktyorlar"
-asosiy_path = os.path.join(os.getcwd(), asosiy_papka)
-os.makedirs(asosiy_path, exist_ok=True)
-for i in range(1, 51):
-    aktyor_papka = f"Aktyor_{i}"
-    path = os.path.join(asosiy_path, aktyor_papka)
-    os.makedirs(path, exist_ok=True)
-print('Aktyorlar')
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3ad88d40",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import threading\n",
+    "\n",
+    "# Prime number checker\n",
+    "def is_prime(n):\n",
+    "    if n < 2:\n",
+    "        return False\n",
+    "    for i in range(2, int(n ** 0.5) + 1):\n",
+    "        if n % i == 0:\n",
+    "            return False\n",
+    "    return True\n",
+    "\n",
+    "# Worker function for threads\n",
+    "def prime_worker(start, end, result):\n",
+    "    for num in range(start, end + 1):\n",
+    "        if is_prime(num):\n",
+    "            result.append(num)\n",
+    "\n",
+    "def threaded_prime_checker(start, end, num_threads=4):\n",
+    "    threads = []\n",
+    "    result = []\n",
+    "    step = (end - start + 1) // num_threads\n",
+    "\n",
+    "    for i in range(num_threads):\n",
+    "        sub_start = start + i * step\n",
+    "        sub_end = start + (i + 1) * step - 1 if i < num_threads - 1 else end\n",
+    "        thread = threading.Thread(target=prime_worker, args=(sub_start, sub_end, result))\n",
+    "        threads.append(thread)\n",
+    "        thread.start()\n",
+    "\n",
+    "    for thread in threads:\n",
+    "        thread.join()\n",
+    "\n",
+    "    return sorted(result)\n",
+    "\n",
+    "\n",
+    "# Example usage\n",
+    "if __name__ == \"__main__\":\n",
+    "    primes = threaded_prime_checker(1, 100, num_threads=4)\n",
+    "    print(\"Prime numbers:\", primes)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2de57969",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import threading\n",
+    "from collections import Counter\n",
+    "\n",
+    "# Worker function to count words\n",
+    "def word_count_worker(lines, counter):\n",
+    "    local_counter = Counter()\n",
+    "    for line in lines:\n",
+    "        words = line.strip().split()\n",
+    "        local_counter.update(words)\n",
+    "    counter.append(local_counter)\n",
+    "\n",
+    "def threaded_word_count(filename, num_threads=4):\n",
+    "    # Read file\n",
+    "    with open(filename, \"r\", encoding=\"utf-8\") as f:\n",
+    "        lines = f.readlines()\n",
+    "\n",
+    "    # Split lines between threads\n",
+    "    step = len(lines) // num_threads\n",
+    "    threads = []\n",
+    "    counters = []\n",
+    "\n",
+    "    for i in range(num_threads):\n",
+    "        sub_lines = lines[i*step : (i+1)*step] if i < num_threads - 1 else lines[i*step:]\n",
+    "        thread = threading.Thread(target=word_count_worker, args=(sub_lines, counters))\n",
+    "        threads.append(thread)\n",
+    "        thread.start()\n",
+    "\n",
+    "    for thread in threads:\n",
+    "        thread.join()\n",
+    "\n",
+    "    # Merge results\n",
+    "    total_counter = Counter()\n",
+    "    for c in counters:\n",
+    "        total_counter.update(c)\n",
+    "\n",
+    "    return total_counter\n",
+    "\n",
+    "\n",
+    "# Example usage\n",
+    "if __name__ == \"__main__\":\n",
+    "    filename = \"sample.txt\"  # o‘zing fayl nomini yoz\n",
+    "    result = threaded_word_count(filename, num_threads=4)\n",
+    "    print(\"Word occurrences:\\n\", result.most_common(10))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f2ebc1fb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cf5fb4ba",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
